@@ -1,7 +1,16 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nx"],
+  "extends": ["plugin:unicorn/recommended", "prettier"],
+  "plugins": ["@nx", "import", "simple-import-sort", "sort-keys-fix"],
+  "rules": {
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "sort-keys-fix/sort-keys-fix": "error"
+  },
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -22,6 +31,23 @@
       }
     },
     {
+      "files": ["*.jsx", "*.tsx"],
+      "extends": ["plugin:@nx/react"],
+      "rules": {
+        "react/jsx-sort-props": [
+          "error",
+          {
+            "callbacksLast": true,
+            "shorthandFirst": true,
+            "shorthandLast": false,
+            "ignoreCase": true,
+            "noSortAlphabetically": false,
+            "reservedFirst": true
+          }
+        ]
+      }
+    },
+    {
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:@nx/typescript"],
       "rules": {}
@@ -31,5 +57,6 @@
       "extends": ["plugin:@nx/javascript"],
       "rules": {}
     }
-  ]
+  ],
+  "reportUnusedDisableDirectives": true
 }
