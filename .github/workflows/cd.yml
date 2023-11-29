@@ -1,0 +1,25 @@
+name: Continuous Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+      - name: Setup PNPM and Node
+        uses: ./.github/actions/setup-pnpm-node
+      - name: Branch Checks
+        uses: ./.github/actions/branch-checks
+      - name: Build App
+        uses: ./.github/actions/build-app
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: pages deploy dist/apps/web

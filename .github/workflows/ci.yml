@@ -1,0 +1,17 @@
+name: Continous Integration
+
+on:
+  push:
+
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+      - name: Setup PNPM and Node
+        uses: ./.github/actions/setup-pnpm-node
+      - name: Branch Checks
+        uses: ./.github/actions/branch-checks
+      - name: Build App
+        uses: ./.github/actions/build-app
